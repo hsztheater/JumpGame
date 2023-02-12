@@ -22,6 +22,8 @@ END = False
 WIN = False
 MENU = True
 
+USED_PRESSED_SPACE = False
+
 # Coin Collectible
 coin = Actor("coin1")
 coin.scale = 0.5
@@ -44,6 +46,10 @@ obstacles_timeout = 0
 
 def update():
     global velocity, obstacles_timeout, code, END, losesound, score, WIN, MENU
+    
+    if !keyboard[keys.SPACE]:
+        clear_used_pressed _space()
+    
     if END:
         score = 0
         gameover()
@@ -114,13 +120,15 @@ def update():
 
 def menu():
     global STARTED
-    if keyboard[keys.SPACE]:
+    if !space_has_been_used() && keyboard[keys.SPACE]:
+        set_used_pressed_space()
         STARTED = True
 
 def gameover():
     global STARTED
     global END
-    if keyboard[keys.SPACE]:
+    if !space_has_been_used() && keyboard[keys.SPACE]:
+        set_used_pressed_space()
         STARTED = True
         END = False
 
@@ -129,12 +137,24 @@ def win():
     global WIN
     global END
     global MENU
-    if keyboard[keys.SPACE]:
+    if !space_has_been_used() && keyboard[keys.SPACE]:
+        set_used_pressed_space()
         STARTED = False
         END = False
         WIN = False
         MENU = True
 
+def space_has_been_used():
+    global USED_PRESSED_SPACE
+    return USED_PRESSED_SPACE
+        
+def set_used_pressed_space():
+    global USED_PRESSED_SPACE
+    USED_PRESSED_SPACE = True
+
+def clear_used_pressed_space():
+    global USED_PRESSED_SPACE
+    USED_PRESSED_SPACE = False
 
 ##############################################DRAW#################################################
 
